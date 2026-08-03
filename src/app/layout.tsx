@@ -73,11 +73,13 @@ export default function RootLayout({
         {/* The Spline runtime lazy-loads its wasm from unpkg; warm the
             connection early so the 3D scene starts faster. */}
         <link rel="preconnect" href="https://unpkg.com" crossOrigin="anonymous" />
-        <Script
-          defer
-          src={process.env.UMAMI_DOMAIN}
-          data-website-id={process.env.UMAMI_SITE_ID}
-        ></Script>
+        {process.env.UMAMI_DOMAIN && process.env.UMAMI_SITE_ID ? (
+          <Script
+            defer
+            src={process.env.UMAMI_DOMAIN}
+            data-website-id={process.env.UMAMI_SITE_ID}
+          />
+        ) : null}
       </head>
       <body>
         <Providers>

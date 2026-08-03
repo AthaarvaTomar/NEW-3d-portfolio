@@ -8,7 +8,7 @@ import { Skill, SkillNames, SKILLS } from "@/data/constants";
 import { sleep } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { usePreloader } from "./preloader";
-import { useTheme } from "next-themes";
+import { useTheme } from "@teispace/next-themes";
 import { Section, getKeyboardState } from "./animated-background-config";
 import { useSounds } from "./realtime/hooks/use-sounds";
 import { usePerfProfile } from "@/hooks/use-perf-profile";

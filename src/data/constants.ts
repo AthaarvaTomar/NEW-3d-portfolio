@@ -251,22 +251,61 @@ export type Experience = {
   endDate: string;
   title: string;
   company: string;
-  description: string[];
-  skills: SkillNames[];
+  description?: string[];
+  skills?: SkillNames[];
 };
 
 export const EXPERIENCE: Experience[] = [
   {
     id: 1,
+    startDate: "May 2026",
+    endDate: "Present",
+    title: "Co-Founder",
+    company: "Otoma8",
+    description: [
+      "Building Otoma8 as an AI and business automation venture alongside CallHQ and Broki.",
+      "Driving product vision, hiring, and go-to-market strategy for early-stage growth.",
+      "Leading technical and business decisions to ship automation tools for modern teams.",
+    ],
+    skills: [
+      SkillNames.NEXTJS,
+      SkillNames.TS,
+      SkillNames.REACT,
+      SkillNames.NODEJS,
+      SkillNames.AWS,
+    ],
+  },
+  {
+    id: 2,
     startDate: "Dec 2024",
     endDate: "Present",
-    title: "Full Stack Developer",
-    company: "OmniNexus Sdn Bhd",
+    title: "Co-Founder",
+    company: "CallHQ.ai",
     description: [
-      "Built a custom image editor from scratch, cutting $4.8k/year in SaaS costs.",
-      "Architected async job queues processing 1k+ AI tasks daily with bulletproof reliability.",
-      "Optimized media delivery pipeline, slashing asset load times by 40%.",
-      "Shipped high-impact features end-to-end from requirements to production.",
+      "Co-founded CallHQ.ai to help businesses automate communication with AI-powered voice agents.",
+      "Built natural, human-like phone conversations for sales outreach, lead qualification, and customer support.",
+      "Owned product architecture, voice AI integrations, and deployment of agents at scale.",
+    ],
+    skills: [
+      SkillNames.NEXTJS,
+      SkillNames.TS,
+      SkillNames.REACT,
+      SkillNames.NODEJS,
+      SkillNames.GCP,
+      SkillNames.AWS,
+      SkillNames.DOCKER,
+    ],
+  },
+  {
+    id: 3,
+    startDate: "May 2024",
+    endDate: "Present",
+    title: "Co-Founder",
+    company: "Broki",
+    description: [
+      "Co-founded Broki — a one-stop marketplace for food & beverage commercial spaces across Delhi NCR.",
+      "Led all technical implementation as CTO, bridging product, engineering, and business needs.",
+      "Shipped the platform for cloud kitchens, restaurants, and FnB operators to discover and transact online.",
     ],
     skills: [
       SkillNames.NEXTJS,
@@ -275,32 +314,84 @@ export const EXPERIENCE: Experience[] = [
       SkillNames.NODEJS,
       SkillNames.POSTGRES,
       SkillNames.MONGODB,
-      SkillNames.DOCKER,
-      SkillNames.GCP,
+      SkillNames.TAILWIND,
     ],
   },
   {
-    id: 2,
-    startDate: "Apr 2022",
-    endDate: "Dec 2024",
-    title: "Freelance Full Stack Developer",
-    company: "Self-employed",
+    id: 4,
+    startDate: "Feb 2024",
+    endDate: "May 2024",
+    title: "Senior Lead Software Engineer",
+    company: "Adobe",
     description: [
-      "Transformed chaotic Excel sheets into polished internal tools for various clients.",
-      "Shipped dashboards and custom CMS platforms tailored to each client's workflow.",
-      "Automated repetitive processes, improving efficiency and reducing human error.",
-      "Focused on clean, maintainable code and interfaces that users actually enjoy.",
+      "Led engineering initiatives for Adobe's Technical Communication Suite products.",
+      "Drove cross-functional alignment between product management, engineering, and localization teams.",
+      "Mentored engineers and raised the bar on delivery quality for customer-facing releases.",
+    ],
+    skills: [SkillNames.TS, SkillNames.REACT, SkillNames.NODEJS, SkillNames.GIT],
+  },
+  {
+    id: 5,
+    startDate: "Feb 2021",
+    endDate: "Feb 2024",
+    title: "Lead Software Engineer",
+    company: "Adobe",
+    description: [
+      "Led development and quality efforts for Adobe's Technical Communication Suite.",
+      "Designed strategies for functional and linguistic testing across localized product releases.",
+      "Built in-house tools to improve testing efficiency and product quality at scale.",
+      "Collaborated with product and engineering to translate requirements into test plans and execution.",
     ],
     skills: [
+      SkillNames.TS,
+      SkillNames.JS,
       SkillNames.REACT,
-      SkillNames.VUE,
       SkillNames.NODEJS,
-      SkillNames.EXPRESS,
-      SkillNames.MONGODB,
-      SkillNames.POSTGRES,
-      SkillNames.TAILWIND,
-      SkillNames.WORDPRESS,
+      SkillNames.GIT,
+      SkillNames.LINUX,
     ],
+  },
+  {
+    id: 6,
+    startDate: "Dec 2017",
+    endDate: "Feb 2021",
+    title: "Software Engineer II",
+    company: "Adobe",
+    description: [
+      "Owned internationalization, globalization, and localization testing for Adobe Technical Communication Suite.",
+      "Delivered localized product releases in multiple languages with high linguistic and functional quality.",
+      "Developed internal tooling to streamline localization workflows and testing throughput.",
+      "Managed coordination with one of the industry's leading localization teams.",
+    ],
+    skills: [SkillNames.JS, SkillNames.TS, SkillNames.GIT, SkillNames.LINUX],
+  },
+  {
+    id: 7,
+    startDate: "Sep 2016",
+    endDate: "Nov 2017",
+    title: "Consultant",
+    company: "Genpact Headstrong Capital Markets",
+    description: [
+      "Developed and maintained WCF services consumed by the UI for capital markets data flows.",
+      "Supported deployment teams across environments with rollout validation and basic checkout.",
+      "Wrote NUnit test cases to maintain code coverage and ship well-tested modules to QA.",
+      "Resolved QA and production bugs and handled database management tasks.",
+    ],
+    skills: [SkillNames.NODEJS, SkillNames.GIT, SkillNames.POSTGRES],
+  },
+  {
+    id: 8,
+    startDate: "Sep 2013",
+    endDate: "Sep 2016",
+    title: "Software Engineer",
+    company: "Infogain",
+    description: [
+      "Worked on Mitchell SmartAdvisor — a leading workers' compensation bill review solution.",
+      "Built state-specific class files and applied UI and database validations for client workflows.",
+      "Created small desktop utilities to improve internal process efficiency.",
+      "Partnered closely with the client on daily development and pre-QA manual testing.",
+    ],
+    skills: [SkillNames.JS, SkillNames.HTML, SkillNames.CSS, SkillNames.GIT],
   },
 ];
 

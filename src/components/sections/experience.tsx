@@ -74,33 +74,39 @@ const ExperienceCard = ({
             </Badge>
           </div>
         </CardHeader>
-        <CardContent className="space-y-6">
-          <ul className="list-disc list-outside ml-4 space-y-2 text-base text-muted-foreground leading-relaxed">
-            {experience.description.map((point, i) => (
-              <li key={i}>{point}</li>
-            ))}
-          </ul>
+        {(experience.description?.length || experience.skills?.length) ? (
+          <CardContent className="space-y-6">
+            {experience.description && experience.description.length > 0 && (
+              <ul className="list-disc list-outside ml-4 space-y-2 text-base text-muted-foreground leading-relaxed">
+                {experience.description.map((point, i) => (
+                  <li key={i}>{point}</li>
+                ))}
+              </ul>
+            )}
 
-          <div className="flex flex-wrap gap-2">
-            {experience.skills.map((skillName) => {
-              const skill = SKILLS[skillName as SkillNames];
-              return (
-                <Badge
-                  key={skillName}
-                  variant="outline"
-                  className="gap-2 text-xs font-normal bg-secondary/30 hover:bg-secondary/50 transition-colors border-transparent"
-                >
-                  <img
-                    src={skill.icon}
-                    alt={skill.label}
-                    className="w-3.5 h-3.5 object-contain opacity-80"
-                  />
-                  {skill.label}
-                </Badge>
-              );
-            })}
-          </div>
-        </CardContent>
+            {experience.skills && experience.skills.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {experience.skills.map((skillName) => {
+                  const skill = SKILLS[skillName as SkillNames];
+                  return (
+                    <Badge
+                      key={skillName}
+                      variant="outline"
+                      className="gap-2 text-xs font-normal bg-secondary/30 hover:bg-secondary/50 transition-colors border-transparent"
+                    >
+                      <img
+                        src={skill.icon}
+                        alt={skill.label}
+                        className="w-3.5 h-3.5 object-contain opacity-80"
+                      />
+                      {skill.label}
+                    </Badge>
+                  );
+                })}
+              </div>
+            )}
+          </CardContent>
+        ) : null}
       </Card>
     </motion.div>
   );
