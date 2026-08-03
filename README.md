@@ -1,12 +1,8 @@
-# 🚀 Akash Malhotra — 3D Portfolio
+# 🚀 Atharv Tomar — 3D Portfolio
 
 Interactive 3D developer portfolio with a keyboard where every keycap is a skill. Built with Next.js, React, TypeScript, GSAP, and Motion.
 
-Forked from [Naresh Khatri's 3d-portfolio](https://github.com/Naresh-Khatri/3d-portfolio) template and customized for [Akash Malhotra](https://github.com/akashrmalhotra).
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/akashrmalhotra/3d-portfolio-next)
-
-![Portfolio Preview](./public/assets/projects-screenshots/callhq/callhq.png)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/AthaarvaTomar/New-Port-folio-)
 
 ## ✨ Features
 
@@ -27,7 +23,7 @@ Forked from [Naresh Khatri's 3d-portfolio](https://github.com/Naresh-Khatri/3d-p
 | **Animation** | GSAP, Motion |
 | **3D** | Spline Runtime |
 | **Email** | Resend |
-| **Misc** | Lenis (smooth scroll), Zod, @teispace/next-themes |
+| **Misc** | Lenis (smooth scroll), Zod, next-themes |
 
 ---
 
@@ -43,8 +39,8 @@ Forked from [Naresh Khatri's 3d-portfolio](https://github.com/Naresh-Khatri/3d-p
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/akashrmalhotra/3d-portfolio-next.git
-    cd 3d-portfolio-next
+    git clone https://github.com/AthaarvaTomar/New-Port-folio-.git
+    cd New-Port-folio-
     ```
 
 2. **Install dependencies:**
@@ -84,15 +80,15 @@ All personal info is centralized in [`src/data/config.ts`](src/data/config.ts):
 
 ```ts
 const config = {
-  title: "Akash Malhotra | Co-Founder & Engineer",
-  author: "Akash Malhotra",
-  email: "contact@broki.in",
-  site: "https://broki.in",
-  githubUsername: "akashrmalhotra",
-  githubRepo: "3d-portfolio-next",
+  title: "Atharv Tomar | Software Engineer",
+  author: "Atharv Tomar",
+  email: "atharvtomar100@gmail.com",
+  site: "https://your-site.com",
+  githubUsername: "AthaarvaTomar",
+  githubRepo: "New-Port-folio-",
   social: {
-    linkedin: "https://www.linkedin.com/in/akashrmalhotra",
-    github: "https://github.com/akashrmalhotra",
+    linkedin: "https://www.linkedin.com/in/atharva-tomar-203619351/",
+    github: "https://github.com/AthaarvaTomar",
     // ...
   },
 };
@@ -104,20 +100,9 @@ Other files to customize:
 |---|---|
 | `src/data/projects.tsx` | Projects, screenshots, descriptions, and tech stacks |
 | `src/data/constants.ts` | Skills list and work experience |
-| `public/Akash_Malhotra_Resume.pdf` | Résumé PDF for the resume page |
-| `public/assets/projects-screenshots/` | Project screenshots (`callhq/`, `broki/`, etc.) |
+| `public/Atharv_Tomar_Resume.pdf` | Résumé PDF for the resume page |
+| `public/assets/projects-screenshots/` | Project screenshots |
 | `public/assets/seo/og-image.png` | Social share preview image |
-
-### Projects
-
-Screenshots live under `public/assets/projects-screenshots/<project-id>/`. Current projects:
-
-- [CallHQ.ai](https://callhq.ai)
-- [Broki](https://broki.in)
-- [CallHQ WhatsApp](https://whatsapp.callhq.ai)
-- [Orrdr](https://orrdr.com)
-- [Otoma8](https://otoma8.com)
-- [Tesoro by Sania](https://tesorobysania.com)
 
 ---
 
@@ -160,7 +145,7 @@ These features activate automatically when the `NEXT_PUBLIC_WS_URL` environment 
 
 ## 🚀 Deployment
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/akashrmalhotra/3d-portfolio-next)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/AthaarvaTomar/New-Port-folio-)
 
 This site is deployed on **Vercel**. To deploy your own:
 
@@ -171,8 +156,8 @@ This site is deployed on **Vercel**. To deploy your own:
 
 ---
 
-## 📄 License & Credits
+## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).
 
-Built on the excellent [3d-portfolio](https://github.com/Naresh-Khatri/3d-portfolio) template by [Naresh Khatri](https://github.com/Naresh-Khatri). If you use this template, a credit or link back to the original repo would be much appreciated ❤️
+Built by **Atharv Tomar** — [GitHub](https://github.com/AthaarvaTomar) · [LinkedIn](https://www.linkedin.com/in/atharva-tomar-203619351/)

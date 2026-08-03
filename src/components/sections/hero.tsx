@@ -76,7 +76,7 @@ const HeroSection = () => {
                       "cursor-default sm:text-xl md:text-xl whitespace-nowrap bg-clip-text "
                     )}
                   >
-                    Co-Founder & Engineer
+                    Software Engineer
                   </p>
                 </BlurIn>
               </div>

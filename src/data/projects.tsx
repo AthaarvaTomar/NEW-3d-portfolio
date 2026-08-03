@@ -76,6 +76,9 @@ const PROJECT_SKILLS = {
   sockerio: brand("Socket.io", "socketdotio-mono.svg"),
   docker: brand("Docker", "docker-mono.svg"),
   aws: brand("AWS", "cloudflare-mono.svg"),
+  express: brand("Express", "express-mono.svg"),
+  shadcn: brand("Shadcn UI", "shadcn-ui-mono.svg"),
+  reactQuery: brand("TanStack Query", "react-query-mono.svg"),
 };
 
 export type Project = {
@@ -92,141 +95,62 @@ export type Project = {
 
 const projects: Project[] = [
   {
-    id: "callhq",
-    category: "Voice AI",
-    title: "CallHQ.ai",
-    src: `${BASE_PATH}/callhq/callhq.png`,
-    screenshots: ["callhq.png"],
-    live: "https://callhq.ai",
-    skills: {
-      frontend: [
-        PROJECT_SKILLS.ts,
-        PROJECT_SKILLS.next,
-        PROJECT_SKILLS.react,
-        PROJECT_SKILLS.tailwind,
-      ],
-      backend: [
-        PROJECT_SKILLS.node,
-        PROJECT_SKILLS.python,
-        PROJECT_SKILLS.aiSDK,
-        PROJECT_SKILLS.anthropic,
-      ],
-    },
-    get content() {
-      return (
-        <div>
-          <TypographyP className="font-mono">
-            AI-powered voice agents for sales, customer engagement, and lead
-            generation — natural, human-like phone conversations at scale.
-          </TypographyP>
-          <ProjectsLinks live={this.live} />
-          <SlideShow images={[`${BASE_PATH}/callhq/callhq.png`]} />
-        </div>
-      );
-    },
-  },
-  {
-    id: "broki",
-    category: "Marketplace",
-    title: "Broki",
-    src: `${BASE_PATH}/broki/broki.png`,
-    screenshots: ["broki.png"],
-    live: "https://broki.in",
-    skills: {
-      frontend: [
-        PROJECT_SKILLS.ts,
-        PROJECT_SKILLS.next,
-        PROJECT_SKILLS.react,
-        PROJECT_SKILLS.tailwind,
-      ],
-      backend: [
-        PROJECT_SKILLS.node,
-        PROJECT_SKILLS.postgres,
-        PROJECT_SKILLS.mongo,
-      ],
-    },
-    get content() {
-      return (
-        <div>
-          <TypographyP className="font-mono">
-            One-stop marketplace for food &amp; beverage — cloud kitchens,
-            restaurants, and commercial spaces across Delhi NCR.
-          </TypographyP>
-          <ProjectsLinks live={this.live} />
-          <SlideShow images={[`${BASE_PATH}/broki/broki.png`]} />
-        </div>
-      );
-    },
-  },
-  {
-    id: "whatsapp",
+    id: "chatty",
     category: "Messaging",
-    title: "CallHQ WhatsApp",
-    src: `${BASE_PATH}/whatsapp/whatsapp.png`,
-    screenshots: ["whatsapp.png"],
-    live: "https://whatsapp.callhq.ai",
-    skills: {
-      frontend: [PROJECT_SKILLS.react, PROJECT_SKILLS.ts, PROJECT_SKILLS.tailwind],
-      backend: [PROJECT_SKILLS.node, PROJECT_SKILLS.sockerio],
-    },
-    get content() {
-      return (
-        <div>
-          <TypographyP className="font-mono">
-            WhatsApp integration layer for CallHQ — automate customer
-            conversations and workflows over WhatsApp Business.
-          </TypographyP>
-          <ProjectsLinks live={this.live} />
-          <SlideShow images={[`${BASE_PATH}/whatsapp/whatsapp.png`]} />
-        </div>
-      );
-    },
-  },
-  {
-    id: "orrdr",
-    category: "Commerce",
-    title: "Orrdr",
-    src: `${BASE_PATH}/orrdr/orrdr.png`,
-    screenshots: ["orrdr.png"],
-    live: "https://orrdr.com",
+    title: "Chatty",
+    src: `${BASE_PATH}/chatty/chatty.png`,
+    screenshots: ["chatty.png"],
+    live: "",
     skills: {
       frontend: [
-        PROJECT_SKILLS.ts,
-        PROJECT_SKILLS.next,
         PROJECT_SKILLS.react,
         PROJECT_SKILLS.tailwind,
+        PROJECT_SKILLS.ts,
       ],
-      backend: [PROJECT_SKILLS.node, PROJECT_SKILLS.postgres],
+      backend: [
+        PROJECT_SKILLS.mongo,
+        PROJECT_SKILLS.node,
+        PROJECT_SKILLS.express,
+        PROJECT_SKILLS.sockerio,
+      ],
     },
     get content() {
       return (
         <div>
           <TypographyP className="font-mono">
-            Commerce platform for ordering and fulfillment.
+            Real-time messaging platform built using the MERN stack.
           </TypographyP>
+          <ul className="list-disc list-inside space-y-1 font-mono text-sm text-muted-foreground my-4">
+            <li>Tech stack: MERN + Socket.io + TailwindCSS + Daisy UI</li>
+            <li>🎃 Authentication &amp;&amp; Authorization with JWT</li>
+            <li>👾 Real-time messaging with Socket.io</li>
+            <li>🚀 Online user status</li>
+            <li>👌 Global state management with Zustand</li>
+            <li>🐞 Error handling both on the server and on the client</li>
+          </ul>
           <ProjectsLinks live={this.live} />
-          <SlideShow images={[`${BASE_PATH}/orrdr/orrdr.png`]} />
+          <SlideShow images={[`${BASE_PATH}/chatty/chatty.png`]} />
         </div>
       );
     },
   },
   {
-    id: "otoma8",
-    category: "AI Platform",
-    title: "Otoma8",
-    src: `${BASE_PATH}/otoma8/otoma8.png`,
-    screenshots: ["otoma8.png"],
-    live: "https://otoma8.com",
+    id: "codeflex",
+    category: "AI & Fitness",
+    title: "CodeFlex",
+    src: `${BASE_PATH}/codeflex/codeflex.png`,
+    screenshots: ["codeflex.png"],
+    live: "",
     skills: {
       frontend: [
         PROJECT_SKILLS.ts,
         PROJECT_SKILLS.next,
         PROJECT_SKILLS.react,
         PROJECT_SKILLS.tailwind,
+        PROJECT_SKILLS.shadcn,
       ],
       backend: [
         PROJECT_SKILLS.node,
-        PROJECT_SKILLS.python,
         PROJECT_SKILLS.aiSDK,
       ],
     },
@@ -234,38 +158,70 @@ const projects: Project[] = [
       return (
         <div>
           <TypographyP className="font-mono">
-            AI platform co-founded alongside CallHQ and Broki — building the next
-            generation of business automation tools.
+            Advanced AI-powered fitness technology platform designed for personalized diet plans and workout routines.
           </TypographyP>
+          <ul className="list-disc list-inside space-y-1 font-mono text-sm text-muted-foreground my-4">
+            <li>Next.js: React framework for building the frontend and API routes</li>
+            <li>Tailwind CSS &amp; Shadcn UI: For styling and UI components</li>
+            <li>Clerk: Authentication and user management</li>
+            <li>Vapi: Voice agent platform for conversational AI</li>
+            <li>Convex: Real-time database</li>
+            <li>Gemini AI: Large Language Model for generating personalized fitness programs</li>
+          </ul>
           <ProjectsLinks live={this.live} />
-          <SlideShow images={[`${BASE_PATH}/otoma8/otoma8.png`]} />
+          <SlideShow images={[`${BASE_PATH}/codeflex/codeflex.png`]} />
         </div>
       );
     },
   },
   {
-    id: "tesorobysania",
-    category: "E-commerce",
-    title: "Tesoro by Sania",
-    src: PLACEHOLDER_IMG,
-    screenshots: [],
-    live: "https://tesorobysania.com",
+    id: "dentacare",
+    category: "SaaS & Healthcare",
+    title: "DentaCare AI",
+    src: `${BASE_PATH}/dentacare/dentacare.png`,
+    screenshots: ["dentacare.png"],
+    live: "",
     skills: {
       frontend: [
         PROJECT_SKILLS.ts,
         PROJECT_SKILLS.next,
         PROJECT_SKILLS.react,
         PROJECT_SKILLS.tailwind,
+        PROJECT_SKILLS.reactQuery,
+        PROJECT_SKILLS.shadcn,
       ],
-      backend: [PROJECT_SKILLS.node],
+      backend: [
+        PROJECT_SKILLS.postgres,
+        PROJECT_SKILLS.node,
+      ],
     },
     get content() {
       return (
         <div>
           <TypographyP className="font-mono">
-            Premium e-commerce storefront for Tesoro by Sania.
+            A modern dental clinic management and appointment booking platform.
           </TypographyP>
+          <ul className="list-disc list-inside space-y-1 font-mono text-sm text-muted-foreground my-4">
+            <li>Modern Landing Page with gradients &amp; images</li>
+            <li>🔐 Authentication via Clerk (Google, GitHub, Email &amp; Password)</li>
+            <li>🔑 Email Verification (6-digit code)</li>
+            <li>📅 Appointment Booking System</li>
+            <li>🦷 3-Step Booking Flow (Dentist → Service &amp; Time → Confirm)</li>
+            <li>📩 Email Notifications for Bookings (Resend)</li>
+            <li>📊 Admin Dashboard for Managing Appointments</li>
+            <li>🗣️ AI Voice Agent powered by Vapi (Pro Plans only)</li>
+            <li>💳 Subscription Payments with Clerk (Free + 2 Paid Plans)</li>
+            <li>🧾 Automatic Invoices via Email</li>
+            <li>💸 Smart Subscription Upgrades (pay only the difference)</li>
+            <li>📂 PostgreSQL for Data Persistence</li>
+            <li>🎨 Styling with Tailwind CSS + Shadcn</li>
+            <li>⚡ Data Fetching with TanStack Query</li>
+            <li>🤖 CodeRabbit for PR Optimizations</li>
+            <li>🧑&zwj;💻 Git &amp; GitHub Workflow (branches, PRs, merges)</li>
+            <li>🚀 Deployment on Sevalla (free-tier friendly)</li>
+          </ul>
           <ProjectsLinks live={this.live} />
+          <SlideShow images={[`${BASE_PATH}/dentacare/dentacare.png`]} />
         </div>
       );
     },

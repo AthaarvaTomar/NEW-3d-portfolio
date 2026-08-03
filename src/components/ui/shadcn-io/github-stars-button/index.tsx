@@ -98,7 +98,7 @@ function GitHubStarsButton({
     if (stars > 0) motionVal.set(stars);
   }, [motionVal, stars]);
 
-  const fillPercentage = Math.min(100, (motionNumberRef.current / stars) * 100);
+  const fillPercentage = stars > 0 ? Math.min(100, (motionNumberRef.current / stars) * 100) : 0;
   const formattedResult = formatNumber(motionNumberRef.current, formatted);
   const ghostFormattedNumber = formatNumber(stars, formatted);
 

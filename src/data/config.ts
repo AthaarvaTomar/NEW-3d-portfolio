@@ -1,12 +1,12 @@
 const config = {
-  title: "Akash Malhotra | Co-Founder & Engineer",
+  title: "Atharv Tomar | Co-Founder & Engineer",
   description: {
-    long: "Explore the portfolio of Akash Malhotra — Co-Founder of CallHQ.ai, Broki, and Otoma8. Former Senior Lead Software Engineer at Adobe with 12+ years building AI voice agents, commerce platforms, and scalable products.",
+    long: "Explore the portfolio of Atharv Tomar — Co-Founder of CallHQ.ai, Broki, and Otoma8. Former Senior Lead Software Engineer at Adobe with 12+ years building AI voice agents, commerce platforms, and scalable products.",
     short:
-      "Portfolio of Akash Malhotra — Co-Founder, engineer, and ex-Adobe tech lead building AI and commerce products.",
+      "Portfolio of Atharv Tomar — Co-Founder, engineer, and ex-Adobe tech lead building AI and commerce products.",
   },
   keywords: [
-    "Akash Malhotra",
+    "Atharv Tomar",
     "portfolio",
     "CallHQ",
     "Broki",
@@ -19,23 +19,23 @@ const config = {
     "Next.js",
     "TypeScript",
   ],
-  author: "Akash Malhotra",
-  email: "contact@broki.in",
-  site: "https://broki.in",
+  author: "Atharv Tomar",
+  email: "atharvtomar100@gmail.com",
+  site: "http://localhost:3000",
 
   // for github stars button
-  githubUsername: "akashrmalhotra",
+  githubUsername: "AthaarvaTomar",
   githubRepo: "3d-portfolio-next",
 
   get ogImg() {
     return this.site + "/assets/seo/og-image.png";
   },
   social: {
-    twitter: "https://www.linkedin.com/in/akashrmalhotra",
-    linkedin: "https://www.linkedin.com/in/akashrmalhotra",
-    instagram: "https://www.linkedin.com/in/akashrmalhotra",
-    facebook: "https://www.linkedin.com/in/akashrmalhotra",
-    github: "https://github.com/akashrmalhotra",
+    twitter: "https://www.linkedin.com/in/atharvtomar",
+    linkedin: "https://www.linkedin.com/in/atharva-tomar-203619351/",
+    instagram: "https://www.linkedin.com/in/atharvtomar",
+    facebook: "https://www.linkedin.com/in/atharvtomar",
+    github: "https://github.com/AthaarvaTomar",
   },
 };
 export { config };
