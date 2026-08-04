@@ -1,5 +1,5 @@
 const config = {
-  title: "Atharv Tomar | Co-Founder & Engineer",
+  title: "Atharv Tomar | Software Devleoper ",
   description: {
     long: "Explore the portfolio of Atharv Tomar — Co-Founder of CallHQ.ai, Broki, and Otoma8. Former Senior Lead Software Engineer at Adobe with 12+ years building AI voice agents, commerce platforms, and scalable products.",
     short:
@@ -34,7 +34,7 @@ const config = {
     twitter: "https://www.linkedin.com/in/atharvtomar",
     linkedin: "https://www.linkedin.com/in/atharva-tomar-203619351/",
     instagram: "https://www.linkedin.com/in/atharvtomar",
-    facebook: "https://www.linkedin.com/in/atharvtomar",
+    facebook: "https://www.linkedin.com/in/atharva-tomar-203619351/",
     github: "https://github.com/AthaarvaTomar",
   },
 };
