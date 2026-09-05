@@ -81,7 +81,7 @@ export default function RootLayout({
           />
         ) : null}
       </head>
-      <body>
+      <body suppressHydrationWarning>
         <Providers>
           <SiteFrame>{children}</SiteFrame>
         </Providers>

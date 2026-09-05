@@ -24,7 +24,7 @@ const config = {
   site: "http://localhost:3000",
 
   // for github stars button
-  githubUsername: "AthaarvaTomar",
+  githubUsername: "AtharvTomar",
   githubRepo: "3d-portfolio-next",
 
   get ogImg() {
