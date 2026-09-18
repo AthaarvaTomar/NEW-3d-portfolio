@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import SocketContextProvider from "@/contexts/socketio";
 import Preloader from "./preloader";
 import { ThemeProvider } from "./theme-provider";
@@ -11,13 +12,15 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
     defaultTheme="dark"
     disableTransitionOnChange
   >
-    <Preloader>
-      <SocketContextProvider>
-        <TooltipProvider>
-          {children}
-        </TooltipProvider>
-        <Toaster />
-      </SocketContextProvider>
-    </Preloader>
+    <Suspense fallback={null}>
+      <Preloader>
+        <SocketContextProvider>
+          <TooltipProvider>
+            {children}
+          </TooltipProvider>
+          <Toaster />
+        </SocketContextProvider>
+      </Preloader>
+    </Suspense>
   </ThemeProvider>;
 };

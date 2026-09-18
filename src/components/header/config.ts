@@ -32,8 +32,8 @@ const links: Link[] = [
   //   thumbnail: '/assets/nav-link-previews/testimonials.png'
   // },
   {
-    title: 'Blogs',
-    href: '/blogs',
+    title: 'Resume',
+    href: '/resume',
     thumbnail: '/assets/nav-link-previews/projects.png',
   },
   {
