@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
-import { createBrowserClient } from "@supabase/ssr";
+import { createClient } from "@/lib/supabase/client";
 
 export default function ResumeLoginPage() {
   const [email, setEmail] = useState("");
@@ -12,10 +12,11 @@ export default function ResumeLoginPage() {
   // Instantiate lazily so this only runs on the client — never during SSR
   // prerendering where NEXT_PUBLIC_* vars may be absent (Vercel build phase).
   const supabase = useMemo(() => {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-    if (!url || !key) return null;
-    return createBrowserClient(url, key);
+    try {
+      return createClient();
+    } catch {
+      return null;
+    }
   }, []);
 
   // Always sign out any existing session when this page loads.
