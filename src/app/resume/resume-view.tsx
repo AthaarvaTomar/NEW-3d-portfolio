@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import ResumeDoodle from "./resume-doodle";
 
 // Drop the compiled PDF here: public/Atharv Tomar-Resume.pdf
-const RESUME_PATH = "/Atharv%20Tomar-Resume.pdf";
+// Bump ?v= whenever you replace the PDF to bust browser / CDN cache.
+const RESUME_PATH = "/Atharv%20Tomar-Resume.pdf?v=2";
 
 export default function ResumeView() {
   return (

@@ -25,6 +25,8 @@
     "@splidejs/react-splide": "^0.7.12",
     "@splinetool/react-spline": "^3.1.0",
     "@splinetool/runtime": "^1.9.3",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.116.0",
     "@teispace/next-themes": "^2.0.4",
     "@types/canvas-confetti": "^1.9.0",
     "canvas-confetti": "^1.9.4",
