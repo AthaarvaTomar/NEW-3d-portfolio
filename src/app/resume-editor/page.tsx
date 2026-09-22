@@ -31,7 +31,15 @@ export const metadata = {
 
 export default async function ResumeEditorPage({ searchParams }: PageProps) {
   const { id } = await searchParams;
-  const supabase = await createClient();
+
+  // Guard: if Supabase env vars are absent (e.g. during static prerender at
+  // build time), bail out to login rather than crashing the build.
+  let supabase;
+  try {
+    supabase = await createClient();
+  } catch {
+    redirect("/resume/login");
+  }
 
   const {
     data: { user },

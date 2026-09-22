@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { createClient } from "@/lib/supabase/client";
+import React, { useState, useEffect, useMemo } from "react";
+import { createBrowserClient } from "@supabase/ssr";
 
 export default function ResumeLoginPage() {
   const [email, setEmail] = useState("");
@@ -9,17 +9,25 @@ export default function ResumeLoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const supabase = createClient();
+  // Instantiate lazily so this only runs on the client — never during SSR
+  // prerendering where NEXT_PUBLIC_* vars may be absent (Vercel build phase).
+  const supabase = useMemo(() => {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (!url || !key) return null;
+    return createBrowserClient(url, key);
+  }, []);
 
   // Always sign out any existing session when this page loads.
   // This ensures credentials are required every single time.
   useEffect(() => {
-    supabase.auth.signOut().catch(() => {});
+    supabase?.auth.signOut().catch(() => {});
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function handleSignIn(e: React.FormEvent) {
     e.preventDefault();
+    if (!supabase) return;
     setError(null);
     setLoading(true);
 
@@ -79,7 +87,7 @@ export default function ResumeLoginPage() {
         <button
           id="login-submit"
           type="submit"
-          disabled={loading}
+          disabled={loading || !supabase}
           className="rounded bg-foreground px-4 py-2 text-sm font-medium text-background disabled:opacity-50"
         >
           {loading ? "Signing in..." : "Sign in"}
