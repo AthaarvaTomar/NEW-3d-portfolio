@@ -12,7 +12,12 @@ import AppOverlays from "@/components/app-overlays";
  */
 export default function SiteFrame({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const bare = pathname?.startsWith("/components") ?? false;
+  // These routes render without header/footer/overlays.
+  const bare =
+    pathname?.startsWith("/components") ||
+    pathname?.startsWith("/resume-editor") ||
+    pathname === "/resume/login" ||
+    false;
 
   if (bare) return <>{children}</>;
 

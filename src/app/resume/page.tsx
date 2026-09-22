@@ -1,23 +1,4 @@
-// -----------------------------------------------------------------------------
-// AUTH GUARD SCAFFOLD — uncomment this block once real Supabase credentials
-// are in .env.local and the Supabase project is set up.
-//
-// import { redirect } from "next/navigation";
-// import { createClient } from "@/lib/supabase/server";
-//
-// export default async function ResumePage() {
-//   const supabase = await createClient();
-//   const { data: { user } } = await supabase.auth.getUser();
-//   if (!user) redirect("/resume/login");
-//   return <ResumeDashboard />;   // replace with dashboard component
-// }
-//
-// Until then, the existing public ResumeView renders as before.
-// NOTE: /resume will become the private dashboard; the PDF viewer
-//       will move to /resume/[slug] (e.g. /resume/atharv-tomar) in
-//       the next phase.
-// -----------------------------------------------------------------------------
-
+import { createClient } from "@/lib/supabase/server";
 import ResumeView from "./resume-view";
 
 export const metadata = {
@@ -26,6 +7,25 @@ export const metadata = {
     "Résumé of Atharv Tomar — Co-Founder & Engineer. View online or download the PDF.",
 };
 
-export default function ResumePage() {
-  return <ResumeView />;
+export default async function ResumePage() {
+  let pdfUrl = "/Atharv%20Tomar-Resume.pdf?v=2";
+
+  try {
+    const supabase = await createClient();
+    const { data: resume } = await supabase
+      .from("resumes")
+      .select("pdf_url, is_public")
+      .eq("is_public", true)
+      .order("updated_at", { ascending: false })
+      .limit(1)
+      .single();
+
+    if (resume?.pdf_url) {
+      pdfUrl = resume.pdf_url;
+    }
+  } catch {
+    // Fallback to default PDF
+  }
+
+  return <ResumeView pdfUrl={pdfUrl} />;
 }
