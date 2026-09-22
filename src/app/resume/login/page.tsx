@@ -1,12 +1,7 @@
 "use client";
 
-// /resume/login -- Admin login page (public route)
-// TODO (next phase): wire up the form to supabase.auth.signInWithPassword()
-// and handle the redirect to /resume on success.
-
-import React, { useState } from "react";
-// import { createClient } from "@/lib/supabase/client"; // uncomment when ready
-// import { useRouter } from "next/navigation";          // uncomment when ready
+import React, { useState, useEffect } from "react";
+import { createClient } from "@/lib/supabase/client";
 
 export default function ResumeLoginPage() {
   const [email, setEmail] = useState("");
@@ -14,28 +9,48 @@ export default function ResumeLoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const supabase = createClient();
+
+  // Always sign out any existing session when this page loads.
+  // This ensures credentials are required every single time.
+  useEffect(() => {
+    supabase.auth.signOut().catch(() => {});
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   async function handleSignIn(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
-    // -- Uncomment once real Supabase credentials are in .env.local ----------
-    // const supabase = createClient();
-    // const { error } = await supabase.auth.signInWithPassword({ email, password });
-    // if (error) { setError(error.message); setLoading(false); return; }
-    // router.push("/resume"); router.refresh();
-    // -----------------------------------------------------------------------
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
-    setError("[Scaffold] Supabase credentials not yet configured.");
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+      return;
+    }
+
     setLoading(false);
+    window.location.href = "/resume-editor";
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-4">
-      <form onSubmit={handleSignIn} className="flex w-full max-w-sm flex-col gap-4">
-        <h1 className="text-xl font-semibold">Resume Admin Login</h1>
+    <main className="flex min-h-screen items-center justify-center p-4 bg-background">
+      <form onSubmit={handleSignIn} className="flex w-full max-w-sm flex-col gap-4 p-6 rounded-xl border bg-card text-card-foreground shadow-sm">
+        <div className="flex items-center justify-between">
+          <h1 className="text-xl font-semibold">Resume Admin Login</h1>
+          <a href="/" className="text-xs text-muted-foreground hover:text-foreground">
+            Home &rarr;
+          </a>
+        </div>
         {error && (
-          <p role="alert" className="text-sm text-red-500">{error}</p>
+          <p role="alert" className="text-sm text-red-500">
+            {error}
+          </p>
         )}
         <label className="flex flex-col gap-1 text-sm">
           Email
@@ -67,7 +82,7 @@ export default function ResumeLoginPage() {
           disabled={loading}
           className="rounded bg-foreground px-4 py-2 text-sm font-medium text-background disabled:opacity-50"
         >
-          {loading ? "Signing in\u2026" : "Sign In"}
+          {loading ? "Signing in..." : "Sign in"}
         </button>
       </form>
     </main>

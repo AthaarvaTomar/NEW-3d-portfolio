@@ -3,15 +3,17 @@
 // SignOutButton -- prepared for supabase.auth.signOut()
 // TODO: uncomment Supabase/router calls in next phase.
 
-// import { createClient } from "@/lib/supabase/client"; // uncomment when ready
-// import { useRouter } from "next/navigation";          // uncomment when ready
+import { createClient } from "@/lib/supabase/client";
 
 export default function SignOutButton() {
   async function handleSignOut() {
-    // const supabase = createClient();
-    // await supabase.auth.signOut();
-    // window.location.href = "/resume/login";
-    console.warn("[Scaffold] Sign-out not yet wired up.");
+    try {
+      const supabase = createClient();
+      await supabase.auth.signOut();
+    } catch (err) {
+      console.warn("Sign-out error:", err);
+    }
+    window.location.href = "/resume/login";
   }
 
   return (
