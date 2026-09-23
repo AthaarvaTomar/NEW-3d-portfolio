@@ -6,6 +6,7 @@ import {
   ReactNode,
   useContext,
   useRef,
+  useCallback,
 } from "react";
 import { AnimatePresence } from "motion/react";
 import { usePathname } from "next/navigation";
@@ -47,6 +48,7 @@ function Preloader({ children, disabled = false }: PreloaderProps) {
   const [isLoading, setIsLoading] = useState(!skip);
   const [loadingPercent, setLoadingPercent] = useState(skip ? 100 : 0);
   const loadingTween = useRef<gsap.core.Tween>(null);
+  const fallbackTimerRef = useRef<NodeJS.Timeout>(null);
 
   // The splash exists only to mask the Spline 3D scene loading. On low-end /
   // reduced-motion devices that scene is never loaded, so its onLoad (which
@@ -54,43 +56,56 @@ function Preloader({ children, disabled = false }: PreloaderProps) {
   // leaving the page stuck behind the loader.
   const { disable3D, ready: perfReady } = usePerfProfile();
 
-  const bypassLoading = () => {
+  const bypassLoading = useCallback(() => {
+    if (fallbackTimerRef.current) {
+      clearTimeout(fallbackTimerRef.current);
+    }
     loadingTween.current?.progress(0.99).kill();
     setLoadingPercent(100);
     setIsLoading(false);
-  };
+  }, []);
 
   useEffect(() => {
     if (perfReady && disable3D) bypassLoading();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [perfReady, disable3D]);
+  }, [perfReady, disable3D, bypassLoading]);
+
   const loadingPercentRef = useRef<{ value: number }>({ value: 0 });
   useEffect(() => {
     if (skip) return;
+
+    // Fail-safe timeout to guarantee preloader is dismissed within 3.5s
+    fallbackTimerRef.current = setTimeout(() => {
+      bypassLoading();
+    }, 3500);
+
     loadingTween.current = gsap.to(loadingPercentRef.current, {
       value: 100,
       duration: LOADING_TIME,
-      ease: "slow(0.7,0.7,false)",
+      ease: "power2.out",
       onUpdate: () => {
         setLoadingPercent(loadingPercentRef.current.value);
       },
       onComplete: () => {
+        if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current);
         setIsLoading(false);
       },
     });
+
     return () => {
+      if (fallbackTimerRef.current) clearTimeout(fallbackTimerRef.current);
       loadingTween.current?.kill();
     };
-  }, [skip]);
+  }, [skip, bypassLoading]);
 
   return (
     <preloaderContext.Provider
       value={{ isLoading, bypassLoading, loadingPercent }}
     >
-      <AnimatePresence mode="wait">{isLoading && <Loader />}</AnimatePresence>
+      <AnimatePresence>{isLoading && <Loader key="global-preloader" />}</AnimatePresence>
       {children}
     </preloaderContext.Provider>
   );
 }
 
 export default Preloader;
+

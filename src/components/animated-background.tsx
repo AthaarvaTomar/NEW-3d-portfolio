@@ -488,6 +488,10 @@ const KeyboardScene = ({ maxDpr }: { maxDpr: number }) => {
           setSplineApp(app);
           bypassLoading();
         }}
+        onError={(err: unknown) => {
+          console.warn("Spline scene failed to load:", err);
+          bypassLoading();
+        }}
         scene="/assets/skills-keyboard.spline"
       />
     </Suspense>
