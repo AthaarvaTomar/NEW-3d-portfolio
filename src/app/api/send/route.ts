@@ -1,6 +1,6 @@
-import { EmailTemplate } from "@/components/email-template";
+import { renderEmailHtml } from "@/components/email-template";
 import { config } from "@/data/config";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 import { z } from "zod";
 
 const rateLimit = new Map<string, { count: number; resetAt: number }>();
@@ -23,12 +23,15 @@ const Email = z.object({
   email: z.string().email({ message: "Email is invalid!" }),
   message: z.string().min(10, "Message is too short!"),
 });
+
 export async function POST(req: Request) {
-  const resend = new Resend(process.env.RESEND_API_KEY);
   try {
     const ip = req.headers.get("x-forwarded-for") ?? "unknown";
     if (isRateLimited(ip)) {
-      return Response.json({ error: "Too many requests. Please try again later." }, { status: 429 });
+      return Response.json(
+        { error: "Too many requests. Please try again later." },
+        { status: 429 }
+      );
     }
 
     const body = await req.json();
@@ -37,26 +40,63 @@ export async function POST(req: Request) {
       data: zodData,
       error: zodError,
     } = Email.safeParse(body);
-    if (!zodSuccess)
+
+    if (!zodSuccess) {
       return Response.json({ error: zodError?.message }, { status: 400 });
-
-    const { data: resendData, error: resendError } = await resend.emails.send({
-      from: "Porfolio <onboarding@resend.dev>",
-      to: [config.email],
-      subject: "Contact me from portfolio",
-      react: EmailTemplate({
-        fullName: zodData.fullName,
-        email: zodData.email,
-        message: zodData.message,
-      }) as React.ReactElement,
-    });
-
-    if (resendError) {
-      return Response.json({ error: "Failed to send email" }, { status: 500 });
     }
 
-    return Response.json(resendData);
+    const smtpUser = process.env.SMTP_USER || process.env.GMAIL_USER;
+    const smtpPass = process.env.SMTP_PASS || process.env.GMAIL_APP_PASSWORD;
+    const smtpHost = process.env.SMTP_HOST || "smtp.gmail.com";
+    const smtpPort = Number(process.env.SMTP_PORT || "465");
+    const isSecure =
+      process.env.SMTP_SECURE !== undefined
+        ? process.env.SMTP_SECURE === "true"
+        : smtpPort === 465;
+
+    if (!smtpUser || !smtpPass) {
+      console.error("SMTP credentials (SMTP_USER and SMTP_PASS) are missing.");
+      return Response.json(
+        { error: "Server email configuration is missing." },
+        { status: 500 }
+      );
+    }
+
+    const transporter = nodemailer.createTransport({
+      host: smtpHost,
+      port: smtpPort,
+      secure: isSecure,
+      auth: {
+        user: smtpUser,
+        pass: smtpPass,
+      },
+    });
+
+    const htmlContent = renderEmailHtml({
+      fullName: zodData.fullName,
+      email: zodData.email,
+      message: zodData.message,
+    });
+
+    const fromAddress =
+      process.env.SMTP_FROM || `"Portfolio Contact" <${smtpUser}>`;
+
+    const info = await transporter.sendMail({
+      from: fromAddress,
+      to: config.email,
+      replyTo: `"${zodData.fullName}" <${zodData.email}>`,
+      subject: `New portfolio contact message from ${zodData.fullName}`,
+      html: htmlContent,
+    });
+
+    return Response.json({ success: true, messageId: info.messageId });
   } catch (error) {
-    return Response.json({ error }, { status: 500 });
+    console.error("Nodemailer error:", error);
+    return Response.json(
+      { error: "Failed to send email. Please try again." },
+      { status: 500 }
+    );
   }
 }
+
+
