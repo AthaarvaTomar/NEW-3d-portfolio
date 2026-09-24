@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Unbounded } from "next/font/google";
 import "./globals.css";
 import { config } from "@/data/config";
-
+import { Analytics } from "@vercel/analytics/next"
 import Script from "next/script";
 import SiteFrame from "@/components/site-frame";
 import { Providers } from "@/components/providers";
@@ -85,6 +85,7 @@ export default function RootLayout({
         <Providers>
           <SiteFrame>{children}</SiteFrame>
         </Providers>
+        <Analytics />
         {process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
         )}
