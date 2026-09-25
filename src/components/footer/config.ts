@@ -1,8 +1,3 @@
-const footer: { title: string; href: string }[] = [
-  {
-    title: "Newsletter",
-    href: "/news",
-  },
-];
+const footer: { title: string; href: string }[] = [];
 
 export { footer };

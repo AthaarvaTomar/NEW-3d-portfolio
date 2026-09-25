@@ -19,7 +19,9 @@ export async function middleware(request: NextRequest) {
   // - /resume/[slug]   (public slug routes)
   const isProtected =
     cleanPath === "/resume-editor" ||
-    cleanPath.startsWith("/resume-editor/");
+    cleanPath.startsWith("/resume-editor/") ||
+    cleanPath === "/admin" ||
+    cleanPath.startsWith("/admin/");
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -58,7 +60,7 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Seal the editor strictly behind authentication
+  // Seal the editor & admin strictly behind authentication
   if (isProtected && !user) {
     const loginUrl = new URL("/resume/login", request.url);
     const redirectResponse = NextResponse.redirect(loginUrl);
@@ -75,5 +77,7 @@ export const config = {
   matcher: [
     "/resume-editor",
     "/resume-editor/:path*",
+    "/admin",
+    "/admin/:path*",
   ],
 };

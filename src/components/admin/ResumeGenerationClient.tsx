@@ -415,6 +415,7 @@ export function ResumeGenerationClient({ initialLatex }: Props) {
               <div className="flex items-center gap-3">
                 <button
                   id="gen-submit-btn"
+                  type="button"
                   onClick={handleGenerate}
                   disabled={isWorking}
                   className="flex items-center gap-2.5 px-6 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 disabled:opacity-50 text-white font-semibold text-sm shadow-lg shadow-violet-950/50 transition-all"
