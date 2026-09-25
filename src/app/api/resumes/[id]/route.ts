@@ -70,6 +70,13 @@ export async function PATCH(req: Request, { params }: RouteParams) {
     }
   }
 
+  // If pdf_url is a temporary browser blob URL, convert it to permanent API endpoint
+  if (typeof updates.pdf_url === "string" && updates.pdf_url.startsWith("blob:")) {
+    updates.pdf_url = `/api/resumes/${id}/pdf`;
+  } else if (!updates.pdf_url && (updates.is_public || body.promoteDraft)) {
+    updates.pdf_url = `/api/resumes/${id}/pdf`;
+  }
+
   // If promoteDraft flag is explicitly passed, sync draft_latex into latex
   if (body.promoteDraft && body.draft_latex) {
     updates.latex = body.draft_latex;
@@ -77,6 +84,15 @@ export async function PATCH(req: Request, { params }: RouteParams) {
 
   if (Object.keys(updates).length === 0) {
     return NextResponse.json({ error: "No valid fields provided to update" }, { status: 400 });
+  }
+
+  // Invalidate cached PDF in storage if LaTeX was changed
+  if (updates.latex || updates.draft_latex) {
+    try {
+      await supabase.storage.from("resumes").remove([`${id}.pdf`]);
+    } catch {
+      // Ignore if bucket doesn't exist
+    }
   }
 
   const { data, error } = await supabase

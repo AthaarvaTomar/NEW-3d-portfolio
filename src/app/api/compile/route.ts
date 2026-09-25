@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
+// Max timeout for this route
+export const maxDuration = 60;
+
 export async function POST(req: Request) {
   const supabase = await createClient();
 
@@ -14,62 +17,53 @@ export async function POST(req: Request) {
   }
 
   const body = await req.json().catch(() => ({}));
-  const { resumeId, latexSource, target = "draft" } = body;
+  const { latexSource } = body;
 
-  if (!resumeId || typeof resumeId !== "string") {
-    return NextResponse.json({ error: "resumeId is required" }, { status: 400 });
-  }
-
-  if (typeof latexSource !== "string") {
+  if (typeof latexSource !== "string" || latexSource.trim() === "") {
     return NextResponse.json({ error: "latexSource is required" }, { status: 400 });
   }
 
-  // Verify ownership of the resume
-  const { data: resume, error: fetchError } = await supabase
-    .from("resumes")
-    .select("id, user_id, slug, pdf_url")
-    .eq("id", resumeId)
-    .eq("user_id", user.id)
-    .single();
+  // Build a multipart form with the .tex source file
+  const formData = new FormData();
+  const texBlob = new Blob([latexSource], { type: "application/x-tex" });
+  formData.append("file", texBlob, "resume.tex");
 
-  if (fetchError || !resume) {
-    return NextResponse.json({ error: "Resume not found" }, { status: 404 });
+  try {
+    // POST to LaTeX.Online — returns the compiled PDF binary directly
+    const latexRes = await fetch(
+      "https://latex.ytotech.com/builds/sync?compiler=pdflatex",
+      {
+        method: "POST",
+        body: formData,
+        signal: AbortSignal.timeout(45_000),
+      }
+    );
+
+    if (!latexRes.ok) {
+      const errText = await latexRes.text().catch(() => "");
+      console.error("LaTeX.Online error:", latexRes.status, errText);
+      return NextResponse.json(
+        { error: `LaTeX compilation failed (HTTP ${latexRes.status}). Check your LaTeX source for errors.` },
+        { status: 422 }
+      );
+    }
+
+    // Stream the PDF bytes back directly — no storage involved
+    const pdfBytes = await latexRes.arrayBuffer();
+
+    return new Response(pdfBytes, {
+      status: 200,
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": "inline; filename=\"resume.pdf\"",
+        "Cache-Control": "no-store",
+      },
+    });
+  } catch (err) {
+    console.error("Compilation pipeline error:", err);
+    return NextResponse.json(
+      { error: "Compilation timed out or a network error occurred. Please try again." },
+      { status: 504 }
+    );
   }
-
-  // Determine PDF URL:
-  // If an external compiler endpoint or custom PDF URL is set, we can use it.
-  // By default, fallback to the pre-compiled public PDF or existing pdf_url.
-  const fallbackPdfUrl = process.env.DEFAULT_RESUME_PDF_URL || "/Atharv Tomar-Resume.pdf";
-  const pdfUrl = resume.pdf_url || fallbackPdfUrl;
-
-  // Prepare database updates according to compilation target
-  const updates: Record<string, unknown> = {
-    pdf_url: pdfUrl,
-    updated_at: new Date().toISOString(),
-  };
-
-  if (target === "publish") {
-    updates.latex = latexSource;
-    updates.draft_latex = latexSource;
-    updates.is_public = true;
-  } else {
-    // Draft compilation
-    updates.draft_latex = latexSource;
-  }
-
-  const { error: updateError } = await supabase
-    .from("resumes")
-    .update(updates)
-    .eq("id", resumeId)
-    .eq("user_id", user.id);
-
-  if (updateError) {
-    return NextResponse.json({ error: updateError.message }, { status: 500 });
-  }
-
-  return NextResponse.json({
-    success: true,
-    pdfUrl,
-    target,
-  });
 }
