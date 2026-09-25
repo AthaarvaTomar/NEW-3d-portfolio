@@ -33,86 +33,6 @@ A modern, interactive 3D developer portfolio featuring an interactive skill keyb
 
 ---
 
-## 📁 Project Structure
-
-```text
-NEW-3d-portfolio/
-├── src/
-│   ├── app/
-│   │   ├── admin/                 # Protected unified admin dashboard (/admin)
-│   │   ├── api/
-│   │   │   ├── compile/           # LaTeX compilation endpoint
-│   │   │   ├── generate-resume/   # Gemini AI resume tailoring API endpoint
-│   │   │   ├── generated-resumes/ # Generation history API endpoint
-│   │   │   └── resumes/           # Resume CRUD & PDF endpoints
-│   │   ├── resume/                # Public resume preview & login
-│   │   ├── globals.css            # Core design system & CSS utilities
-│   │   └── page.tsx               # Main 3D portfolio landing page
-│   ├── components/
-│   │   ├── admin/                 # AdminDashboardClient & AiTailorPanel
-│   │   ├── common/                # IstClock component
-│   │   ├── footer/                # Footer component with Live IST clock
-│   │   ├── header/                # Header & slide-out navigation menu
-│   │   ├── resume/                # ResumeEditor & SignOutButton
-│   │   └── sections/              # Hero, Skills, Projects, Experience, Contact
-│   ├── lib/                       # Supabase client/server helpers & utilities
-│   └── data/                      # Portfolio configuration & content
-├── middleware.ts                  # Route protection middleware for /admin & /resume-editor
-├── next.config.mjs                # Next.js configuration & security headers
-└── .env.example                   # Environment variable template
-```
-
----
-
-## ⚙️ Environment Configuration
-
-Copy `.env.example` to `.env.local` and configure your API keys:
-
-```bash
-cp .env.example .env.local
-```
-
-### Required Variables:
-
-```env
-# Supabase Authentication & Database
-NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
-
-# Google Gemini AI API Key (Resume Tailoring)
-GEMINI_API_KEY=your_gemini_api_key
-
-# Public Site Configuration
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
-```
-
----
-
-## 🚀 Getting Started
-
-### 1. Install Dependencies
-
-```bash
-npm install
-```
-
-### 2. Run Development Server
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-### 3. Build for Production
-
-```bash
-npm run build
-npm start
-```
-
----
 
 ## 🔐 Admin Routes & AI Suite
 
@@ -123,6 +43,4 @@ npm start
 
 ---
 
-## 📜 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
