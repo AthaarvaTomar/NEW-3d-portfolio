@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { StreamLanguage } from "@codemirror/language";
 import { stex } from "@codemirror/legacy-modes/mode/stex";
@@ -18,19 +18,27 @@ import Link from "next/link";
 import SignOutButton from "@/components/resume/SignOutButton";
 
 interface Props {
-  resumeId: string;
-  initialDraftLatex: string;
-  slug: string;
+  resumeId?: string;
+  initialDraftLatex?: string;
+  slug?: string;
   initialPdfUrl?: string | null;
+  onBack?: () => void;
 }
 
 export function ResumeEditor({
-  resumeId,
-  initialDraftLatex,
-  slug,
+  resumeId = "",
+  initialDraftLatex = "",
+  slug = "resume",
   initialPdfUrl,
+  onBack,
 }: Props) {
   const [latex, setLatex] = useState(initialDraftLatex);
+
+  useEffect(() => {
+    if (initialDraftLatex) {
+      setLatex(initialDraftLatex);
+    }
+  }, [initialDraftLatex]);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const prevBlobUrl = useRef<string | null>(null);
   // Sanitize fallback URL so blob URLs are replaced by permanent API route
@@ -156,15 +164,27 @@ export function ResumeEditor({
     <div className="flex flex-col h-screen bg-neutral-950 text-neutral-100 antialiased">
       {/* Toolbar */}
       <header className="flex flex-wrap items-center gap-2 p-3 border-b border-neutral-800 bg-neutral-900/80 backdrop-blur z-10">
-        <Link
-          href="/"
-          className="btn text-neutral-400 hover:text-white mr-1"
-          title="Back to Home Page"
-          id="editor-home-btn"
-        >
-          <ArrowLeft size={16} />
-          <span className="hidden sm:inline">Home</span>
-        </Link>
+        {onBack ? (
+          <button
+            type="button"
+            onClick={onBack}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-neutral-800 bg-neutral-900 text-xs text-neutral-300 hover:text-white hover:bg-neutral-800 transition-colors mr-2 cursor-pointer"
+            id="editor-back-btn"
+          >
+            <ArrowLeft size={14} />
+            <span>← Back to menu</span>
+          </button>
+        ) : (
+          <Link
+            href="/"
+            className="btn text-neutral-400 hover:text-white mr-1"
+            title="Back to Home Page"
+            id="editor-home-btn"
+          >
+            <ArrowLeft size={16} />
+            <span className="hidden sm:inline">Home</span>
+          </Link>
+        )}
 
         <span className="font-semibold text-sm mr-2 text-neutral-200 hidden md:inline">
           {slug}

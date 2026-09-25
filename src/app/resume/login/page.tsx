@@ -44,7 +44,7 @@ export default function ResumeLoginPage() {
     }
 
     setLoading(false);
-    window.location.href = "/resume-editor";
+    window.location.href = "/admin";
   }
 
   return (
