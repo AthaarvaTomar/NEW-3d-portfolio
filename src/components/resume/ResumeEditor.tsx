@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { StreamLanguage } from "@codemirror/language";
 import { stex } from "@codemirror/legacy-modes/mode/stex";
@@ -31,7 +31,14 @@ export function ResumeEditor({
   initialPdfUrl,
 }: Props) {
   const [latex, setLatex] = useState(initialDraftLatex);
-  const [pdfUrl, setPdfUrl] = useState<string | null>(initialPdfUrl || null);
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const prevBlobUrl = useRef<string | null>(null);
+  // Sanitize fallback URL so blob URLs are replaced by permanent API route
+  const sanitizedFallback =
+    initialPdfUrl && !initialPdfUrl.startsWith("blob:")
+      ? initialPdfUrl
+      : `/api/resumes/${resumeId}/pdf`;
+  const [staticFallbackUrl] = useState<string | null>(sanitizedFallback);
   const [saving, setSaving] = useState(false);
   const [compiling, setCompiling] = useState(false);
   const [publishing, setPublishing] = useState(false);
@@ -69,19 +76,25 @@ export function ResumeEditor({
 
   const handleRecompile = async () => {
     setCompiling(true);
+    showStatus("Compiling LaTeX…");
     try {
       const res = await fetch("/api/compile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ resumeId, latexSource: latex, target: "draft" }),
+        body: JSON.stringify({ latexSource: latex }),
       });
-      const data = await res.json().catch(() => ({}));
-      if (data.success && data.pdfUrl) {
-        setPdfUrl(data.pdfUrl);
-        showStatus("Recompiled successfully");
-      } else {
-        showStatus(data.error || "Compilation failed");
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        showStatus(err.error || "Compilation failed");
+        return;
       }
+      // Get raw PDF bytes and make a blob URL — no storage required
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      if (prevBlobUrl.current) URL.revokeObjectURL(prevBlobUrl.current);
+      prevBlobUrl.current = url;
+      setPdfUrl(url);
+      showStatus("Compiled successfully ✓");
     } catch (err) {
       console.error("Recompile failed:", err);
       showStatus("Network error during compilation");
@@ -93,10 +106,17 @@ export function ResumeEditor({
   const handleSendToFrontend = async () => {
     setPublishing(true);
     try {
+      const permanentPdfUrl = `/api/resumes/${resumeId}/pdf`;
       const res = await fetch(`/api/resumes/${resumeId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ latex, pdf_url: pdfUrl, is_public: true, promoteDraft: true }),
+        body: JSON.stringify({
+          latex,
+          draft_latex: latex,
+          pdf_url: permanentPdfUrl,
+          is_public: true,
+          promoteDraft: true,
+        }),
       });
       if (res.ok) {
         showStatus("Published! Opening front-end preview...");
@@ -114,9 +134,9 @@ export function ResumeEditor({
   };
 
   const handleDownload = () => {
-    if (!pdfUrl) return;
+    const downloadTarget = pdfUrl || staticFallbackUrl || `/api/resumes/${resumeId}/pdf`;
     const a = document.createElement("a");
-    a.href = pdfUrl;
+    a.href = downloadTarget;
     a.download = `${slug || "resume"}.pdf`;
     a.target = "_blank";
     a.click();
@@ -172,7 +192,7 @@ export function ResumeEditor({
 
         <button
           onClick={handleSendToFrontend}
-          disabled={publishing || !pdfUrl}
+          disabled={publishing}
           className="btn text-emerald-400 hover:text-emerald-300 border-emerald-900/60 hover:bg-emerald-950/40"
           id="editor-publish-btn"
         >
@@ -224,9 +244,9 @@ export function ResumeEditor({
         <div className="w-1/2 h-full overflow-hidden bg-neutral-900 flex flex-col">
           <div className="text-xs font-mono uppercase tracking-wider text-neutral-500 px-3 py-1.5 border-b border-neutral-800 bg-neutral-900/50 flex justify-between items-center">
             <span>PDF Preview</span>
-            {pdfUrl && (
+            {(pdfUrl || staticFallbackUrl) && (
               <a
-                href={pdfUrl}
+                href={pdfUrl || staticFallbackUrl!}
                 target="_blank"
                 rel="noreferrer"
                 className="text-xs text-neutral-400 hover:text-white flex items-center gap-1"
@@ -236,9 +256,9 @@ export function ResumeEditor({
             )}
           </div>
           <div className="flex-1 overflow-hidden">
-            {pdfUrl ? (
+            {pdfUrl || staticFallbackUrl ? (
               <iframe
-                src={pdfUrl}
+                src={pdfUrl || staticFallbackUrl!}
                 title="Compiled Resume Preview"
                 className="w-full h-full border-0"
               />

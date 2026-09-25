@@ -14,14 +14,18 @@ export default async function ResumePage() {
     const supabase = await createClient();
     const { data: resume } = await supabase
       .from("resumes")
-      .select("pdf_url, is_public")
+      .select("id, pdf_url, is_public")
       .eq("is_public", true)
       .order("updated_at", { ascending: false })
       .limit(1)
-      .single();
+      .maybeSingle();
 
-    if (resume?.pdf_url) {
-      pdfUrl = resume.pdf_url;
+    if (resume) {
+      if (resume.pdf_url && !resume.pdf_url.startsWith("blob:")) {
+        pdfUrl = resume.pdf_url;
+      } else if (resume.id) {
+        pdfUrl = `/api/resumes/${resume.id}/pdf`;
+      }
     }
   } catch {
     // Fallback to default PDF
