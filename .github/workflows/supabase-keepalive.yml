@@ -1,0 +1,34 @@
+name: Supabase Keep-Alive
+
+on:
+  schedule:
+    # Runs every 3 days at 00:00 UTC (Supabase free tier pauses after 7 days of inactivity)
+    - cron: '0 0 */3 * *'
+  workflow_dispatch: # Allows manual run anytime from the GitHub Actions tab
+
+jobs:
+  keep-alive:
+    name: Ping Supabase Project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send API ping to Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://sjxchuktkoreiyvjivaw.supabase.co' }}
+          SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNqeGNodWt0a29yZWl5dmppdmF3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk4NjM4NjYsImV4cCI6MjEwNTQzOTg2Nn0.-P-PivoH_VyQ7qbuxGAmcWz96rMSUaNSQ_GD4nvDfrA' }}
+        run: |
+          echo "Connecting to Supabase project..."
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            "${SUPABASE_URL}/rest/v1/resumes?select=id&limit=1" || true)
+
+          echo "Supabase HTTP response code: $HTTP_CODE"
+
+          # Even 401/404/200 registers as incoming HTTP activity on the Supabase API Gateway
+          if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "204" ]; then
+            echo "✅ Supabase project is active and responding. 7-day inactivity timer reset!"
+          elif [ "$HTTP_CODE" = "000" ]; then
+            echo "⚠️ Could not connect. If project is paused, please unpause it from the Supabase dashboard."
+          else
+            echo "Activity ping recorded with status: $HTTP_CODE"
+          fi
