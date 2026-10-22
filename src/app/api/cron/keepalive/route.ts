@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-export const dynamic = "force-dynamic";
 
 /**
  * Keep-alive endpoint to prevent Supabase free tier projects from pausing
