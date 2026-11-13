@@ -15,7 +15,7 @@ const DEFAULT_STARTER_LATEX = `\\documentclass[11pt,a4paper]{article}
 
 \\begin{document}
 \\section*{Atharv Tomar - Résumé}
-Co-Founder \\& Engineer
+Software Engineer
 
 \\subsection*{Experience}
 Built responsive web applications, real-time collaboration engines, and interactive portfolio systems.

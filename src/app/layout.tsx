@@ -24,6 +24,7 @@ const unbounded = Unbounded({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(config.site),
   title: config.title,
   description: config.description.long,
   keywords: config.keywords,
@@ -32,21 +33,12 @@ export const metadata: Metadata = {
     title: config.title,
     description: config.description.short,
     url: config.site,
-    images: [
-      {
-        url: config.ogImg,
-        width: 800,
-        height: 600,
-        alt: "Portfolio preview",
-      },
-    ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: config.title,
     description: config.description.short,
-    images: [config.ogImg],
   },
   robots: {
     index: true,
