@@ -112,11 +112,12 @@ export default function ResumeDoodle({
   }, []);
 
   return (
-    <div ref={wrapRef} className="relative h-full">
+    <div ref={wrapRef} className="relative h-full w-full bg-transparent">
       <iframe
         src={src}
         title={title}
-        className="relative z-0 block h-full w-full bg-white"
+        scrolling="no"
+        className="relative z-0 block h-full w-full border-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
       />
 
       {/* Doodle layer */}

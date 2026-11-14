@@ -65,6 +65,7 @@ export default function Body({
             key={`l_${index}`}
             href={href}
             target={target}
+            prefetch={href.startsWith("/resume") ? true : undefined}
             className="cursor-can-hover rounded-lg"
           >
             <motion.p

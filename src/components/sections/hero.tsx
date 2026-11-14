@@ -81,7 +81,7 @@ const HeroSection = () => {
                 </BlurIn>
               </div>
               <div className="mt-8 flex flex-col gap-3 w-fit">
-                <Link href="/resume" className="flex-1">
+                <Link href="/resume" prefetch={true} className="flex-1">
                   <BoxReveal delay={2} width="100%" >
                     <Button className="flex items-center gap-2 w-full">
                       <File size={24} />

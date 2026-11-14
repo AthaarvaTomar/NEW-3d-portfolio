@@ -65,17 +65,17 @@ export default function ResumeView({ pdfUrl }: ResumeViewProps = {}) {
         </motion.div>
       </div>
 
-      {/* PDF viewer — top padding increased so resume sits in the middle of the dark background */}
-      <div className="mx-auto flex w-full max-w-4xl flex-1 items-center justify-center px-2 pb-6 md:items-start md:px-4 md:pb-24">
+      {/* Resume viewer — seamless full display without box container */}
+      <div className="mx-auto flex w-full max-w-4xl flex-1 items-start justify-center px-2 pt-2 pb-6 md:px-4 md:pt-4 md:pb-24">
         {/* opacity-only animation: a transformed ancestor would trap the fixed doodle FAB */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="aspect-[210/297] w-full overflow-hidden rounded-2xl bg-neutral-900 border border-neutral-800/80 shadow-xl pt-12 md:pt-16 px-2 sm:px-4 pb-6"
+          transition={{ duration: 0.4 }}
+          className="w-full aspect-[8.5/11]"
         >
           <ResumeDoodle
-            src={`${resumePath}#toolbar=0&navpanes=0&view=FitH`}
+            src={`${resumePath}#page=1&toolbar=0&navpanes=0&scrollbar=0&view=Fit`}
             title="Atharv Tomar — Résumé"
           />
         </motion.div>
